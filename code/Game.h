@@ -11,6 +11,7 @@ class Game
 {
 public:
 	Game();
+	~Game();
 	void runGame();
 private:
 	Font font;

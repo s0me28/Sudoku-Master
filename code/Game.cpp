@@ -12,6 +12,10 @@ Game::Game()
 
 	state = MENU;
 }
+Game::~Game()
+{
+	
+}
 
 
 void Game::runGame()
