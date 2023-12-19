@@ -14,11 +14,6 @@ Game::Game()
 }
 
 
-Game::~Game(void)
-{
-}
-
-
 void Game::runGame()
 {
 	while (state != END)

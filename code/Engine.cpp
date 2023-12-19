@@ -117,6 +117,7 @@ bool Engine::runEngine(RenderWindow &window, int level)
 			overAfis.setPosition(270, 50);
 			overAfis.setColor(Color(80, 80, 80));
 			window.draw(overAfis);
+			timer.restart();   //aici o sa adaug numele si timer-ul in fisier
 
 			if ((Keyboard::isKeyPressed(Keyboard::Escape)))
 			{
@@ -298,25 +299,6 @@ void Engine::selectCell(RenderWindow &window, int size,int &index, int **matrix,
 	}
 }
 
-string intTOstring(int number)
-{
-	if (number == 0)
-	        return "0";
-	    string temp="";
-	    string returnvalue="";
-	    while (number>0)
-	    {
-	        temp+=number%10+48;
-	        number/=10;
-	    }
-	    for (int i=0;i<temp.length();i++)
-	    {
-	    	 returnvalue+=temp[temp.length()-i-1];
-	    }
-
-	    return returnvalue;
-}
-
 void Engine::drawSquare(RenderWindow &window, int **matrix,bool **bloc, int size, int index)
 {
 	float elapsedSeconds = timer.getElapsedTime().asSeconds();
@@ -361,7 +343,7 @@ void Engine::drawSquare(RenderWindow &window, int **matrix,bool **bloc, int size
 			string text;
 			if(matrix[i][j]>0)
 			{
-				text = intTOstring(matrix[i][j]);
+				text = to_string(matrix[i][j]);
 			}
 			else
 			{
