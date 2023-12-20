@@ -28,7 +28,7 @@ bool Engine::runEngine(RenderWindow &window, int level)
 {
 	Sprite background(texture);
 	int size = 9;
-	int index = 0;
+	int index = 0;  //unde sunt in joc 0-80
 
 	int **m = new int*[20];
 	m[0] = new int[20 * 20];
@@ -59,8 +59,8 @@ bool Engine::runEngine(RenderWindow &window, int level)
 	setLevel(m, b, size, level);
 
 	Input input;
-	input.val = 0;
-	input.value = "";
+	input.val = 0;   //int pentru verificare o sa fac atoi din string
+	input.value = ""; //string 
 
 	CellSize = 40;
 	FontSize = 20;
@@ -104,7 +104,7 @@ bool Engine::runEngine(RenderWindow &window, int level)
 
 		drawSquare(window, m, b, size, index);
 
-		input.cell.setCharacterSize(20);
+		input.cell.setCharacterSize(20);            // aici adaug valoarea in celula
 		input.cell.setColor(Color(80, 80, 80));
 		input.cell.setFont(font);
 		input.cell.setString(input.value);
@@ -171,12 +171,12 @@ bool Engine::checkColumn(int **m, int size, int column, int value)
 
 bool Engine::checkSquare(int **m, int size, int row, int column, int value)
 {
-	int quadx = 3, quady = 3;
+	int quadx = 3, quady = 3;   //un patrat e 3x3
 
-	int sizey = row / quady;
+	int sizey = row / quady;    //coordonatele patratului 0 1 2
 	int sizex = column / quadx;
 
-	sizey = (sizey*quady);
+	sizey = (sizey*quady);      //stanga-sus din patrat si parcurg in el
 	sizex = (sizex*quadx);
 
 	for (int i = sizey; i<sizey + quady; i++)
@@ -193,11 +193,11 @@ bool Engine::checkSquare(int **m, int size, int row, int column, int value)
 
 }
 
-bool Engine::removing(bool bol[16], int t)
+bool Engine::checkFalse(bool verificbool[9], int marime) //verific daca tot sirul e false => sudoku nerezolvabil
 {
-	for (int i = 0; i<t; i++)
+	for (int i = 0; i<marime; i++)
 	{
-		if (bol[i])
+		if (verificbool[i])
 		{
 			return false;
 		}
@@ -205,7 +205,7 @@ bool Engine::removing(bool bol[16], int t)
 	return true;
 }
 
-void Engine::selectCell(RenderWindow &window, int size,int &index, int **matrix, bool **bloc, Input &input)
+void Engine::selectCell(RenderWindow &window, int size,int &index, int **matrice, bool **block, Input &input)
 {
 	if(Keyboard::isKeyPressed(Keyboard::Left))
 	{
@@ -245,7 +245,7 @@ void Engine::selectCell(RenderWindow &window, int size,int &index, int **matrix,
 		}
 		input.value="";
 	}
-	if(!bloc[index/size][index%size] && input.value.size()<=1)
+	if(!block[index/size][index%size] && input.value.size()<=1)
 	{
 		if(Keyboard::isKeyPressed(Keyboard::Num0) || Keyboard::isKeyPressed(Keyboard::Numpad0))
 		{
@@ -288,19 +288,18 @@ void Engine::selectCell(RenderWindow &window, int size,int &index, int **matrix,
 			input.value+='9';
 		}
 	}
-	if(!bloc[index/size][index%size])
+	if(!block[index/size][index%size])
 	{
-		if(Keyboard::isKeyPressed(Keyboard::Return))
+		if(Keyboard::isKeyPressed(Keyboard::Enter))
 		{
 			input.val = atoi(input.value.c_str());
 
 			bool correct;
-			
-			correct=checkColumn(matrix,size,index%size,input.val) && checkRow(matrix,size,index/size,input.val) && checkSquare(matrix,size,index/size,index%size, input.val);
+			correct=checkColumn(matrice,size,index%size,input.val) && checkRow(matrice,size,index/size,input.val) && checkSquare(matrice,size,index/size,index%size,input.val);
 
 			if(input.val>0 && input.val<=size && correct)
 			{
-				matrix[index/size][index%size]=input.val;
+				matrice[index/size][index%size]=input.val;
 				scor+=5;
 				input.value="";
 				helper="Helper: ";
@@ -318,7 +317,7 @@ void Engine::selectCell(RenderWindow &window, int size,int &index, int **matrix,
 	}
 }
 
-void Engine::drawSquare(RenderWindow &window, int **matrix,bool **bloc, int size, int index)
+void Engine::drawSquare(RenderWindow &window, int **matrice,bool **block, int size, int index)
 {
 	float elapsedSeconds = timer.getElapsedTime().asSeconds();
     string timerText = "Time: " + to_string(static_cast<int>(elapsedSeconds)) + "s";
@@ -352,12 +351,12 @@ void Engine::drawSquare(RenderWindow &window, int **matrix,bool **bloc, int size
 	font.loadFromFile("arialceb.ttf");
 
 	RectangleShape mediumSquare;
-	mediumSquare.setSize(Vector2f(cellSize*quadx, cellSize*quady));
+	mediumSquare.setSize(Vector2f(cellSize*quadx, cellSize*quady)); // 3x3 
 	mediumSquare.setOutlineThickness(2);
 	mediumSquare.setOutlineColor(sf::Color::Black);
 	mediumSquare.setFillColor(sf::Color::Transparent);
 
-	RectangleShape bigSquare;
+	RectangleShape bigSquare; // 9 x 9
 	bigSquare.setSize(Vector2f(cellSize*size, cellSize*size));
 	bigSquare.setOutlineThickness(4);
 	bigSquare.setOutlineColor(sf::Color::Black);
@@ -367,7 +366,7 @@ void Engine::drawSquare(RenderWindow &window, int **matrix,bool **bloc, int size
 	RectangleShape smallSquare;
 	smallSquare.setSize(Vector2f(cellSize, cellSize));
 	smallSquare.setOutlineThickness(1);
-	smallSquare.setOutlineColor(Color(200,200,200));
+	smallSquare.setOutlineColor(Color(200,200,200)); // alb
 	smallSquare.setFillColor(sf::Color::Transparent);
 
 	for(int i=0; i<size; i++)
@@ -377,9 +376,9 @@ void Engine::drawSquare(RenderWindow &window, int **matrix,bool **bloc, int size
 			smallSquare.setPosition((400-size/2*cellSize)+j*cellSize,(300-size/2*cellSize)+i*cellSize);
 			window.draw(smallSquare);
 			string text;
-			if(matrix[i][j]>0)
+			if(matrice[i][j]>0)   // pastrez valori valide, unde e 0 sterg (e 0 doar la reset)
 			{
-				text = to_string(matrix[i][j]);
+				text = to_string(matrice[i][j]);
 			}
 			else
 			{
@@ -387,29 +386,27 @@ void Engine::drawSquare(RenderWindow &window, int **matrix,bool **bloc, int size
 			}
 			if(index%size==j && index/size==i)
 			{
-				smallSquare.setFillColor(Color(0,255,0,210));
+				smallSquare.setFillColor(Color(0,255,0,210)); // verde deschis si transparent sa se vada numerele
 				smallSquare.setPosition((400-size/2*cellSize)+j*cellSize,(300-size/2*cellSize)+i*cellSize);
 				window.draw(smallSquare);
 				smallSquare.setFillColor(sf::Color::Transparent);
 			}
 
-			Text cell(text, font, fontSize);
+			Text cell(text, font, fontSize); //text de mai sus scrie cu gri numarul temporar
 			cell.setPosition((400-size/2*cellSize)+j*cellSize+fontSize/2, (300-size/2*cellSize)+i*cellSize+fontSize/2);
-			if(bloc[i][j])
+			if(block[i][j]) //daca e false inseamna ca se poate edita
 			{
-				cell.setColor(Color(80, 80, 80));
+				cell.setColor(Color(80, 80, 80)); //gri
 			}
 			else
 			{
 				cell.setColor(Color::Blue);
 			}
-
-
 			window.draw(cell);
 		}
 	}
 
-	for(int i=0; i<size; i++)
+	for(int i=0; i<size; i++) // 0 3 6
 	{
 		for(int j=0; j<size; j++)
 		{
@@ -425,62 +422,54 @@ void Engine::drawSquare(RenderWindow &window, int **matrix,bool **bloc, int size
 
 void Engine::fillTable(int **m, int &size, RenderWindow &window)
 {
-
-	int val[16];
-	bool valbool[16];
-
-
-	for (int i = 0; i<16; i++)
+	int valoareint[9];
+	bool valoarebool[9];
+	for (int i = 0; i<9; i++)
 	{
-		val[i] = i + 1;
-		valbool[i] = true;
+		valoareint[i] = i + 1;    //sir de la 1-9 de adaugat in matrice
+		valoarebool[i] = true;    //temporar valorile sunt corecte
 	}
 
-	int valueRow = (rand() % size);
+	int valoare = (rand() % size); // ceva % 9 == numerele de la 0-8
 	int reset = 0;
-
-
 	for (int i = 0; i < size; i++)
 	{
 		for (int j = 0; j < size; j++)
 		{
-			
-			if (valbool[valueRow])
+			if (valoarebool[valoare]) //testam corectitudinea 
 			{
 				bool check;
-
-				check = checkRow(m, size, i, val[valueRow]) && checkColumn(m, size, j, val[valueRow]) && checkSquare(m, size, i, j, val[valueRow]);
-
+				check = checkRow(m, size, i, valoareint[valoare]) && checkColumn(m, size, j, valoareint[valoare]) && checkSquare(m, size, i, j, valoareint[valoare]);
 				if (check)
 				{
-					m[i][j] = val[valueRow];
-					for (int i = 0; i<16; i++)
+					m[i][j] = valoareint[valoare]; // daca poate fi pusa si e si corecta o salvam in matrice, resetam sirul boolean si sarim la alta valoare
+					for (int i = 0; i<9; i++)
 					{
-						valbool[i] = true;
+						valoarebool[i] = true;
 					}
-					valueRow = (rand() % size);
+					valoare = (rand() % size);
 				}
 				else
 				{
-					valbool[valueRow] = false;
+					valoarebool[valoare] = false; //daca poate fi pusa,dar nu e corecta
 					j--;
-					valueRow = (valueRow + 1) % size;
+					valoare = (valoare + 1) % size;
 				}
-			}
-			else
+			}        
+			else //daca intra pe else inseamna ca nu exista valori corecte => trebuie sa resetam ca nu o sa genereze un sudoku rezolvabil
 			{
-				valueRow = (valueRow + 1) % size;
+				valoare = (valoare + 1) % size; 
 				j--;
-				if (removing(valbool, size))
+				if (checkFalse(valoarebool, size)) // verific daca tot sirul e false (nu am ce valori sa mai pun ca le-am verificat si nu sunt bune) => sudoku nerezolvabil
 				{
-					for (int x = 0; x<16; x++)
+					for (int x = 0; x<9; x++)   // pune 0 pe toata coloana (o resetez)
 					{
-						valbool[x] = true;
+						valoarebool[x] = true;
 						m[i][x] = 0;
 					}
 					reset++;
 					j = -1;
-					if (reset>1000)
+					if (reset>1000) //full reset
 					{
 						i = -1;
 						j = -1;
@@ -520,21 +509,21 @@ void Engine::setLevel(int **m, bool **b, int size, int difficulty)
 		break;
 	}
 	int numberCells = (size*size);
-	int left = numberCells / amount;
-	int deleted = numberCells - left;
+	int left = numberCells / amount; //cate raman
+	int deleted = numberCells - left; //cate trebuie sterse
 
 	int row = rand() % size;
 	int column = rand() % size;
 	for (int i = 0; i<deleted; i++)
 	{
-		if (m[row][column] > 0)
+		if (m[row][column] > 0) //il ascund
 		{
 			m[row][column] = 0;
 			b[row][column] = false;
 		}
 		else
 		{
-			row = rand() % size;
+			row = rand() % size; //mai baga o fisa la random
 			column = rand() % size;
 			i--;
 		}
@@ -547,7 +536,7 @@ bool Engine::checkWin(int **m, int size)
 	{
 		for (int j = 0; j<size; j++)
 		{
-			if (m[i][j] == 0)
+			if (m[i][j] == 0) // daca e 0 => ascuns
 			{
 				return false;
 			}

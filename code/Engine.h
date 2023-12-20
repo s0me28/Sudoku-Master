@@ -26,12 +26,12 @@ class Engine
 	 int CellSize, FontSize;
 	 void fillTable(int **m, int &size, RenderWindow &window);
 	 void setLevel(int **m, bool **b, int size, int difficulty);
-	 void selectCell(RenderWindow &window, int size, int &index, int **matrix, bool **bloc, Input &input);
-	 void drawSquare(RenderWindow &window, int **matrix, bool **bloc, int size, int index);
+	 void selectCell(RenderWindow &window, int size, int &index, int **matrice, bool **block, Input &input);
+	 void drawSquare(RenderWindow &window, int **matrice, bool **block, int size, int index);
 	 bool checkRow(int **m, int size, int row, int value);
 	 bool checkColumn(int **m, int size, int column, int value);
 	 bool checkSquare(int **m, int size, int row, int column, int value);
-	 bool removing(bool bol[16], int t);
+	 bool checkFalse(bool verificbool[9], int marime);
 	 bool checkWin(int **m, int size);
 };
 
