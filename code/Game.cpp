@@ -14,9 +14,8 @@ Game::Game()
 }
 Game::~Game()
 {
-	
-}
 
+}
 
 void Game::runGame()
 {

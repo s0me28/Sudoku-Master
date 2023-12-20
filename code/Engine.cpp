@@ -4,6 +4,8 @@ sf::Clock timer;
 float timeLimit;
 int scor=0;
 int vieti=3;
+string helper="";
+Game menu;
 
 Engine::Engine()
 {
@@ -82,6 +84,10 @@ bool Engine::runEngine(RenderWindow &window, int level)
 				{
 					delete[]m[0];
 					delete[]b[0];
+					scor=0;
+				    vieti=3;
+				    timer.restart();
+				    helper="Helper: ";
 					return false;
 				}
 				selectCell(window, size, index, m, b, input);
@@ -120,12 +126,16 @@ bool Engine::runEngine(RenderWindow &window, int level)
 			overAfis.setPosition(300, 50);
 			overAfis.setColor(Color(80, 80, 80));
 			window.draw(overAfis);
-			timer.restart();   //aici o sa adaug numele si timer-ul in fisier
+			timer.restart();   
 
 			if ((Keyboard::isKeyPressed(Keyboard::Escape)))
 			{
 				delete[]m[0];
 				delete[]b[0];
+				scor=0;
+				vieti=3;
+				timer.restart();
+				helper="Helper: ";
 				return false;
 			}
 
@@ -294,6 +304,7 @@ void Engine::selectCell(RenderWindow &window, int size,int &index, int **matrix,
 				matrix[index/size][index%size]=input.val;
 				scor+=5;
 				input.value="";
+				helper="Helper: ";
 			}
 			else
 			{
@@ -301,6 +312,7 @@ void Engine::selectCell(RenderWindow &window, int size,int &index, int **matrix,
 				scor-=5;
 				if(scor<0)
 				 scor=0;
+				helper = "Helper: Mistake on (" + to_string(index/size)+","+to_string(index%size) + ") !";
 				input.value="";
 			}
 		}
@@ -327,6 +339,11 @@ void Engine::drawSquare(RenderWindow &window, int **matrix,bool **bloc, int size
     vietiDisplay.setPosition(10, 50);
     vietiDisplay.setColor(Color(80, 80, 80));
     window.draw(vietiDisplay);
+
+	Text helperDisplay(helper, font, 20);
+    helperDisplay.setPosition(10, 90);
+    helperDisplay.setColor(Color(80, 80, 80));
+    window.draw(helperDisplay);
 
 	int quadx = 3, quady = 3;
 		
