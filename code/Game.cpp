@@ -185,21 +185,24 @@ void Game::help()
 {
 	sf::Text title("HELP", font, 90);
 	title.setStyle(sf::Text::Bold);
-
 	title.setPosition(800 / 2 - title.getGlobalBounds().width / 2, 60);
 	title.setStyle(sf::Text::Bold);
 
-	const int n = 2;
+	string reguliText = "Trebuie completate toate casutele libere: \n\n -toate valorile de la 1-9 pe fiecare linie/coloana\n\n - fara duplicate pe linii/coloane";
+    Text reguliDisplay(reguliText, font, 30);
+    reguliDisplay.setPosition(10, 200);
+    reguliDisplay.setColor(Color(255, 255, 255));
 
+	const int n = 1;
 	sf::Text tab[n];
 
-	std::string rules[] = { "1-9 unique(row/col)", "back" };
+	std::string rules[] = {"back"};
 	for (int i = 0; i<n; i++)
 	{
 		tab[i].setFont(font);
 		tab[i].setCharacterSize(65);
 		tab[i].setString(rules[i]);
-		tab[i].setPosition(800 / 2 - tab[i].getGlobalBounds().width / 2, 200 + i * 120);
+		tab[i].setPosition(800 / 2 - tab[i].getGlobalBounds().width / 2, 500);
 	}
 
 
@@ -213,22 +216,24 @@ void Game::help()
 		{
 			if (event.type == sf::Event::Closed)
 				window.close();
-			else if (tab[1].getGlobalBounds().contains(mouse) && event.type == sf::Event::MouseButtonReleased && event.key.code == sf::Mouse::Left)
-			{
+		    else 
+			 if (tab[0].getGlobalBounds().contains(mouse) && event.type == sf::Event::MouseButtonReleased && event.key.code == sf::Mouse::Left)
+			 {
 				state = MENU;
-			}
+			 }
 		}
 		
-		if (tab[1].getGlobalBounds().contains(mouse))
-			tab[1].setColor(Color::Green);
-		else tab[1].setColor(Color::White);
+		if (tab[0].getGlobalBounds().contains(mouse))
+			tab[0].setColor(Color::Green);
+		else 
+		    tab[0].setColor(Color::White);
 
 
 		window.clear();
 		window.draw(background);
 		window.draw(title);
-		for (int i = 0; i<n; i++)
-			window.draw(tab[i]);
+		window.draw(reguliDisplay);
+		window.draw(tab[0]);
 		window.display();
 	}
 }
