@@ -4,7 +4,7 @@ sf::Clock timer;
 float timeLimit;
 int scor=0;
 int vieti=3;
-string helper="";
+string helper="Helper: ";
 Game menu;
 
 Engine::Engine()
@@ -88,7 +88,7 @@ bool Engine::runEngine(RenderWindow &window, int level)
 				    vieti=3;
 				    timer.restart();
 				    helper="Helper: ";
-					return false;
+                    return false;
 				}
 				selectCell(window, size, index, m, b, input);
 				break;
