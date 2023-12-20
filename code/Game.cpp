@@ -188,7 +188,7 @@ void Game::help()
 	title.setPosition(800 / 2 - title.getGlobalBounds().width / 2, 60);
 	title.setStyle(sf::Text::Bold);
 
-	string reguliText = "Trebuie completate toate casutele libere: \n\n -toate valorile de la 1-9 pe fiecare linie/coloana\n\n - fara duplicate pe linii/coloane";
+	string reguliText = "Trebuie completate toate casutele libere: \n\n - toate valorile de la 1-9 pe fiecare linie/coloana\n\n - fara duplicate pe linii/coloane";
     Text reguliDisplay(reguliText, font, 30);
     reguliDisplay.setPosition(10, 200);
     reguliDisplay.setColor(Color(255, 255, 255));
