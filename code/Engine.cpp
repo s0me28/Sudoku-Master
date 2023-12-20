@@ -176,7 +176,6 @@ bool Engine::checkSquare(int **m, int size, int row, int column, int value)
 	int sizey = row / quady;
 	int sizex = column / quadx;
 
-
 	sizey = (sizey*quady);
 	sizex = (sizex*quadx);
 

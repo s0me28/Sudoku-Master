@@ -15,6 +15,7 @@ public:
 	void runGame();
 private:
 	Font font;
+	Texture texture;
 	enum GameState { MENU, GAME, HELP, END };
 	GameState state;
 	void levels();

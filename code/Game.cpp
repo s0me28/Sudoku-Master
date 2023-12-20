@@ -9,7 +9,8 @@ Game::Game()
 
 	if (!font.loadFromFile("arialceb.ttf"))
 		return;
-
+    texture.loadFromFile("background.jpg");
+	
 	state = MENU;
 }
 Game::~Game()
@@ -62,6 +63,7 @@ void Game::menu()
 	{
 		Vector2f mouse(Mouse::getPosition(window));
 		Event event;
+		Sprite background(texture);
 
 		while (window.pollEvent(event))
 		{
@@ -90,7 +92,7 @@ void Game::menu()
 			else tab[i].setColor(Color::White);
 
 			window.clear();
-
+            window.draw(background);
 			window.draw(title);
 			for (int i = 0; i<n; i++)
 				window.draw(tab[i]);
@@ -127,6 +129,7 @@ void Game::levels()
 		sf::Vector2f mouse(sf::Mouse::getPosition(window));
 		sf::Event event;
 		Engine engine;
+		Sprite background(texture);
 
 		while (window.pollEvent(event))
 		{
@@ -170,6 +173,7 @@ void Game::levels()
 
 
 		window.clear();
+		window.draw(background);
 		window.draw(title);
 		for (int i = 0; i<n; i++)
 			window.draw(tab[i]);
@@ -203,6 +207,7 @@ void Game::help()
 	{
 		sf::Vector2f mouse(sf::Mouse::getPosition(window));
 		sf::Event event;
+		Sprite background(texture);
 
 		while (window.pollEvent(event))
 		{
@@ -220,6 +225,7 @@ void Game::help()
 
 
 		window.clear();
+		window.draw(background);
 		window.draw(title);
 		for (int i = 0; i<n; i++)
 			window.draw(tab[i]);
