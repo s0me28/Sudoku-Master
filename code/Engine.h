@@ -17,6 +17,11 @@ class Engine
 	public:
 	 Engine();
 	 ~Engine();
+	 sf::Clock timer;
+     float timeLimit;
+     int scor=0;
+     int vieti=3;
+     string helper="Helper: ";
 	 bool runEngine(RenderWindow &window ,int level);
 	private:
 	 Font font;

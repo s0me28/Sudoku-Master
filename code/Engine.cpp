@@ -1,12 +1,5 @@
 #include "Engine.h"
 
-sf::Clock timer;
-float timeLimit;
-int scor=0;
-int vieti=3;
-string helper="Helper: ";
-Game menu;
-
 Engine::Engine()
 {
 	timer.restart();
@@ -14,9 +7,7 @@ Engine::Engine()
 	srand(time(NULL));
 
 	font.loadFromFile("arialceb.ttf");
-	texture.loadFromFile("white.jpg");
-	
-	Game game;	
+	texture.loadFromFile("white.jpg");	
 	state = GAME;
 }
 
@@ -101,8 +92,32 @@ bool Engine::runEngine(RenderWindow &window, int level)
 
 		window.clear();
 		window.draw(background);
+        
+		float elapsedSeconds = timer.getElapsedTime().asSeconds();
+    	string timerText = "Time: " + to_string(static_cast<int>(elapsedSeconds)) + "s";
+    	Text timerDisplay(timerText, font, 20);
+    	timerDisplay.setPosition(10, 10);
+    	timerDisplay.setColor(Color(80, 80, 80));
+    	window.draw(timerDisplay);
 
-		drawSquare(window, m, b, size, index);
+    	string scorText = "Scor: " + to_string(scor);
+    	Text scorDisplay(scorText, font, 20);
+    	scorDisplay.setPosition(10, 30);
+    	scorDisplay.setColor(Color(80, 80, 80));
+    	window.draw(scorDisplay);
+
+		string vietiText = "Vieti: " + to_string(vieti);
+    	Text vietiDisplay(vietiText, font, 20);
+    	vietiDisplay.setPosition(10, 50);
+    	vietiDisplay.setColor(Color(80, 80, 80));
+    	window.draw(vietiDisplay);
+
+		Text helperDisplay(helper, font, 20);
+    	helperDisplay.setPosition(10, 90);
+    	helperDisplay.setColor(Color(80, 80, 80));
+    	window.draw(helperDisplay);
+
+		drawSquare(window, m, b, size, index);      //trebuie sa pun draw Square in Game
 
 		input.cell.setCharacterSize(20);            // aici adaug valoarea in celula
 		input.cell.setColor(Color(80, 80, 80));
@@ -319,32 +334,8 @@ void Engine::selectCell(RenderWindow &window, int size,int &index, int **matrice
 
 void Engine::drawSquare(RenderWindow &window, int **matrice,bool **block, int size, int index)
 {
-	float elapsedSeconds = timer.getElapsedTime().asSeconds();
-    string timerText = "Time: " + to_string(static_cast<int>(elapsedSeconds)) + "s";
-    Text timerDisplay(timerText, font, 20);
-    timerDisplay.setPosition(10, 10);
-    timerDisplay.setColor(Color(80, 80, 80));
-    window.draw(timerDisplay);
 
-    string scorText = "Scor: " + to_string(scor);
-    Text scorDisplay(scorText, font, 20);
-    scorDisplay.setPosition(10, 30);
-    scorDisplay.setColor(Color(80, 80, 80));
-    window.draw(scorDisplay);
-
-	string vietiText = "Vieti: " + to_string(vieti);
-    Text vietiDisplay(vietiText, font, 20);
-    vietiDisplay.setPosition(10, 50);
-    vietiDisplay.setColor(Color(80, 80, 80));
-    window.draw(vietiDisplay);
-
-	Text helperDisplay(helper, font, 20);
-    helperDisplay.setPosition(10, 90);
-    helperDisplay.setColor(Color(80, 80, 80));
-    window.draw(helperDisplay);
-
-	int quadx = 3, quady = 3;
-		
+	int quadx = 3, quady = 3;	
 	int cellSize = 40, fontSize = 20;
 
 	Font font;
